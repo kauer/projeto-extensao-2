@@ -1,7 +1,7 @@
 ## Descrição geral do sistema
-Fornecer uma breve descrição geral do sistema (2-3 parágrafos). Uso de
-figuras/diagramas é indicado.
+A ideia é um sistema de RAG (Retrieval-Assisted Generation) para servir como um assistente virtual de aprendizado, respondendo dúvidas dos alunos e referenciando o material didático das disciplinas.
 
+O sistema consistirá em um site separado do SIGAA, aonde o aluno seleciona seu Curso e Disciplina desejado. A interface será parecida com um chatbot IA normal (chatGPT, DeepSeek, etc.). Para responder as perguntas do aluno, a LLM fará a pesquisa nos materiais didáticos da Disciplina selecionada e em suas respostas trará referências para de onde foi buscada a informação.
 
 
 ## 2. Requisitos Funcionais
