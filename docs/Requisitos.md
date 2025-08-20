@@ -26,8 +26,6 @@ RNF01 - Flexibilidade - Suporte multimodal (pdf, slides, etc)
 
 RNF02 - Custo - Deve ser o mais baixo possível. Devemos upar o app na infra do IFSC.
 
-RNF03 - Memória - 
+RNF03 - Responsividade - Sistema deve ser utilizável em dispositivos móveis com adequação do layout.
 
-RNF04 - Energia - 
-
-RNF05 - Tempo - 
+RNF04 - Referências - Nas respostas, o sistema deve referenciar com links clicáveis o material didático.
