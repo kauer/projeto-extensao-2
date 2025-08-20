@@ -16,10 +16,6 @@
 * Monitores
 
 **Equipe do projeto**: 
-Product owner (professor): Arliones Hoeller Jr.
-Scrum master (professor): Arliones Hoeller Jr.
-
-**Time (alunos):**
 Kauê dos Santos Rocha
 Gabriel Ferreira de Souza da Silva
 
