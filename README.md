@@ -1,6 +1,6 @@
 ## Documento de Visão
 
-### Nome do Projeto: <A_DEFINIR>
+### Nome do Projeto: TutorIA
 
 **Propósito do Projeto**: Criar uma um assistente de IA que responda dúvidas de alunos baseado no conteúdo de uma disciplina no SIGAA.
 
