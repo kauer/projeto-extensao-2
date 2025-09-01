@@ -1,8 +1,17 @@
-Projeto TutorIA
-    Site/Frontend/Etc
-        Tarefa A.1
-        ...etc
-    Montar o RAG
-        Banco de dados
-    Validação/Testes
-        
+1. Projeto TutorIA
+    1. Projeto/Engenharia de Software
+        1. Diagrama de atividades
+        2. Caso de uso
+    2. Site/Frontend/etc
+        1. Mockup do site
+        2. Desenvolvimento
+        3. Deployment/upar o site
+    3. Desenvolver o RAG (backend)
+        1. Desenvolvimento
+            1. Receber material didático dos profs
+            2. Converter em chunks no banco de dados
+            3. Desenvolver a pipeline RAG
+            4. Integração com o site, API
+        2. Persistência/Banco de Dados
+            1. Como salvar os dados e guardar IAs?
+    4. Validação/Testes
