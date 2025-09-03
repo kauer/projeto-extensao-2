@@ -1,17 +1,21 @@
 1. Projeto TutorIA
     1. Projeto/Engenharia de Software
-        1. Diagrama de atividades
-        2. Caso de uso
+        1.1. Diagrama de atividades
+        1.2. Caso de uso
+        1.3. Diagrama de Classes
+        1.4. Mapear endpoints da API
     2. Site/Frontend/etc
-        1. Mockup do site
-        2. Desenvolvimento
-        3. Deployment/upar o site
-    3. Desenvolver o RAG (backend)
-        1. Desenvolvimento
-            1. Receber material didático dos profs
-            2. Converter em chunks no banco de dados
-            3. Desenvolver a pipeline RAG
-            4. Integração com o site, API
-        2. Persistência/Banco de Dados
-            1. Como salvar os dados e guardar IAs?
-    4. Validação/Testes
+        2.1. Integração da API
+        2.2. Mockup do site
+        2.3. Desenvolvimento
+        2.4. Deployment/upar o site
+    3. Desenvolver o RAG
+        3.1. Desenvolvimento
+            3.1.1. Receber material didático dos profs
+            3.1.2. Converter em chunks no banco de dados
+            3.1.3. Desenvolver a pipeline RAG
+        3.2. Persistência/Banco de Dados
+            3.2.1. Como salvar os dados e guardar IAs?
+    4. Desenvolver o Backend
+        4.1. 
+    5. Validação/Testes
