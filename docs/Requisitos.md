@@ -4,7 +4,7 @@ A ideia é um sistema de RAG (Retrieval-Assisted Generation) para servir como um
 O sistema consistirá em um site separado do SIGAA, aonde o aluno seleciona seu Curso e Disciplina desejado. A interface será parecida com um chatbot IA normal (chatGPT, DeepSeek, etc.). Para responder as perguntas do aluno, a LLM fará a pesquisa nos materiais didáticos da Disciplina selecionada e em suas respostas trará referências para de onde foi buscada a informação.
 
 
-## 2. Requisitos Funcionais
+## Requisitos Funcionais
 Os requisitos funcionais (RF) descrevem as funcionalidades do sistema, e devem servir de guia para montar o backlog do projeto.
 
 Código - Descrição
