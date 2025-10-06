@@ -40,6 +40,8 @@ Pós-condições: O TutorIA ajuda o aluno a responder à sua dúvida ou a esclar
 
 Disparador: O aluno pede ajuda em um conteúdo ao TutorAI.
 
+Prioridade: Essencial.
+
 Cenário:
 
   	1.  O aluno acessa o link fornecido pelo professor.
