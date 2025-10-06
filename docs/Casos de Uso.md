@@ -1,3 +1,11 @@
+# Casos de uso a especificar ainda:
+1) Login (geral)
+2) Registrar (geral)
+3) Compartilhar disciplina (prof)
+4) Adicionar alunos à disciplina (prof)
+
+
+
 # Casos de Uso do Professor
 
 ### UC-1: Adicionar Disciplina
