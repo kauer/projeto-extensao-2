@@ -57,15 +57,21 @@ Disparador:   O aluno pede ajuda em um conteúdo ao TutorAI.
 
 Cenário:
 
-  1.  O aluno acessa o link fornecido pelo professor.
+  	1.  O aluno acessa o link fornecido pelo professor.
+	
 	2.  O aluno escreve a sua dúvida ão TutorAI.
+	
 	3.  O TutorAI procura sobre a matéria.
+	
 	4.  O TutorAI explica sobre a matéria baseando sua resposta á dúvida do aluno.
+	
 
 Exceções:
 
-  1a.   Se o aluno não tiver logado/registrado: O sistema avisa o aluno e pede para logar/registrar login.
+  	1a.   Se o aluno não tiver logado/registrado: O sistema avisa o aluno e pede para logar/registrar login.
+	
 	3a.   Se o TutorAI não tiver acesso á matéria: O sistema avisa ão aluno que o professor não colocou essa matéria no seu Banco de Dados ainda e pede para informar ao seu professor sobre isso.
+	
 	4a.  Se o TutorAI der uma resposta insatisfatoria: O aluno define que o TutorAI deu uma resposta insatisfatoria, o sistema agradece pela sua opinião e tentara não repetir o mesmo tipo de resposta.
 
 Prioridade:   Essencial.
