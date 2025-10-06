@@ -1,14 +1,24 @@
-# Casos de uso a especificar ainda:
-1) Login (geral)
-2) Registrar (geral)
-3) Compartilhar disciplina (prof)
-4) Adicionar alunos à disciplina (prof)
+# Casos de Uso Nomenclatura:
+
+**UCP - Casos de Uso Professor**
+
+**UCA - Casos de Uso Aluno**
+
+**UCG - Casos de Uso Geral**
+
+# Casos de Uso Gerais
+
+### UCG-1: Login
+
+
+
+### UCG-2: Registrar
 
 
 
 # Casos de Uso do Professor
 
-### UC-1: Adicionar Disciplina
+### UCP-1: Adicionar Disciplina
 
 **Ator primário:** Professor
 
@@ -33,10 +43,21 @@
 
 	3a. O professor não adiciona Nome à disciplina: O sistema informa que a disciplina não pode ser registrada sem nome.
 
+### UCP-2: Compartilhar Disciplina
+
+
+
+### UCP-3: Adicionar Alunos à Disciplina
+
+
+
+### UCP-4: Recebe Feedback
+
+
 
 # Casos de Uso do Aluno
 
-### UC-2: Perguntar ao TutorIA
+### UCA-1: Perguntar ao TutorAI
 
 **Ator primário:** Aluno
 
@@ -61,4 +82,10 @@
 
 	1a. Se o aluno não tiver logado/registrado: O sistema avisa o aluno e pede para logar/registrar login.
 	3a. Se o TutorAI não tiver acesso à matéria: O sistema avisa ao aluno que o professor não colocou fontes para essa disciplina no seu Banco de Dados ainda e pede para informar ao seu professor sobre isso.
-	4a. Se o TutorAI der uma resposta insatisfatoria: O aluno define que o TutorAI deu uma resposta insatisfatoria, o sistema agradece pela sua opinião e tentará não repetir o mesmo tipo de resposta.
+	4a. Se o TutorAI der uma resposta insatisfatoria: O aluno define que o TutorAI deu uma resposta insatisfatoria, escolhe se decide opinar sobre a resposta do TutorAI, explica o por que é insatisfatorio e enviado ao professor essa opinião.
+
+
+
+### UCA-2: Envia Feedback
+
+
