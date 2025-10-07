@@ -14,6 +14,31 @@
 
 ### UCG-2: Registrar
 
+**Ator primário:** Usuário (Professor ou Aluno)
+
+**Meta no contexto:** Criar um registro no sistema, se identificando como aluno ou professor.
+
+**Pós-condições:** Um novo registro na tabela de Usuários é criada no backend, com as informações do Usuário.
+
+**Disparador:** O Usuário abre o site do TutorIA e clica no botão "Registrar-se"
+
+**Prioridade:** Essencial.
+
+**Cenário:**
+
+1. O Usuário clica no botão "Registrar-se"
+2. O sistema exibe uma tela perguntando email, senha, e nome do Usuário.
+3. O Usuário insere as opções relevantes e dá OK.
+4. O sistema envia um código de confirmação para o email do usuário e exibe uma tela para o Usuário inserir seu código (ou gerar outro código), mostrando o tempo até a expiração do código.
+5. O Usuário preenche seu código de confirmação.
+6. O sistema passa para a próxima tela, que pergunta se o Usuário é um Professor ou um Aluno.
+7. O Usuário faz sua seleção.
+8. O Sistema leva o usuário à página inicial.
+
+**Exceções:**
+
+3a. Se faltar alguma informação de registro, o sistema notifica o usuário e o impede de seguir.
+5a. Se o código de confirmação do usuário está errado, o sistema notifica o usuário e o impede de seguir.
 
 
 # Casos de Uso do Professor
