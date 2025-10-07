@@ -59,14 +59,14 @@
 
 **Cenário:**
 
-	1. O professor clica no botão "Adicionar Disciplina"
-	2. O sistema exibe uma tela perguntando Nome da disciplina, se é pública ou não, e dando a opção de adicionar emails de alunos. Também dá a opção de adicionar fontes ao criar (o que pode também ser feito posteriormente)
-	3. O professor insere as opções relevantes e dá OK.
-	4. O sistema cria uma nova Disciplina, volta ao menu anterior, e abre a nova disciplina na tela.
+1. O professor clica no botão "Adicionar Disciplina"
+2. O sistema exibe uma tela perguntando Nome da disciplina, se é pública ou não, e dando a opção de adicionar emails de alunos. Também dá a opção de adicionar fontes ao criar (o que pode também ser feito posteriormente)
+3. O professor insere as opções relevantes e dá OK.
+4. O sistema cria uma nova Disciplina, volta ao menu anterior, e abre a nova disciplina na tela.
 
 **Exceções:**
 
-	3a. O professor não adiciona Nome à disciplina: O sistema informa que a disciplina não pode ser registrada sem nome.
+3a. O professor não adiciona Nome à disciplina: O sistema informa que a disciplina não pode ser registrada sem nome.
 
 ### UCP-2: Compartilhar Disciplina
 
@@ -98,16 +98,16 @@
 
 **Cenário:**
 
-	1. O aluno acessa o link fornecido pelo professor.
-	2. O aluno escreve a sua dúvida no chatbot do TutorAI.
-	3. O TutorAI gera uma resposta sobre a matéria.
-	4. O TutorAI explica sobre a matéria baseando sua resposta á dúvida do aluno, provendo citações das fontes usadas.
+1. O aluno acessa o link fornecido pelo professor.
+2. O aluno escreve a sua dúvida no chatbot do TutorAI.
+3. O TutorAI gera uma resposta sobre a matéria.
+4. O TutorAI explica sobre a matéria baseando sua resposta á dúvida do aluno, provendo citações das fontes usadas.
 	
 **Exceções:**
 
-	1a. Se o aluno não tiver logado/registrado: O sistema avisa o aluno e pede para logar/registrar login.
-	3a. Se o TutorAI não tiver acesso à matéria: O sistema avisa ao aluno que o professor não colocou fontes para essa disciplina no seu Banco de Dados ainda e pede para informar ao seu professor sobre isso.
-	4a. Se o TutorAI der uma resposta insatisfatoria: O aluno define que o TutorAI deu uma resposta insatisfatoria, escolhe se decide opinar sobre a resposta do TutorAI, explica o por que é insatisfatorio e enviado ao professor essa opinião.
+1a. Se o aluno não tiver logado/registrado: O sistema avisa o aluno e pede para logar/registrar login.
+3a. Se o TutorAI não tiver acesso à matéria: O sistema avisa ao aluno que o professor não colocou fontes para essa disciplina no seu Banco de Dados ainda e pede para informar ao seu professor sobre isso.
+4a. Se o TutorAI der uma resposta insatisfatoria: O aluno define que o TutorAI deu uma resposta insatisfatoria, escolhe se decide opinar sobre a resposta do TutorAI, explica o por que é insatisfatorio e enviado ao professor essa opinião.
 
 
 
