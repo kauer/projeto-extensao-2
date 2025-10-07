@@ -10,7 +10,27 @@
 
 ### UCG-1: Login
 
+**Ator primário:** Usuário (Professor ou Aluno)
 
+**Meta no contexto:** Acessar um registro existente no sistema, se identificando como aluno ou professor.
+
+**Pós-condições:** Um registro existente na tabela de Usuários é puxada do Backend, com as informações do Usuário.
+
+**Disparador:** O Usuário abre o site do TutorIA e clica no botão "Logar"
+
+**Prioridade:** Essencial.
+
+**Cenário:**
+
+1. O Usuário clica no botão "Logar"
+2. O sistema exibe uma tela perguntando email, senha e nome do Usuário.
+3. O Usuário insere as opções relevantes e dá OK.
+4. O Usuário faz sua seleção.
+5. O Sistema leva o usuário à página inicial.
+
+**Exceções:**
+
+3a. Se faltar alguma informação de login, o sistema notifica o usuário e o impede de seguir.
 
 ### UCG-2: Registrar
 
