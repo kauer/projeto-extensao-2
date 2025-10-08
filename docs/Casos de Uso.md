@@ -267,3 +267,30 @@ ___
 
 
 ### UCA-3: Acessar Disciplina
+
+**Ator primário:** Aluno
+
+**Meta no contexto:** O Aluno acessar uma Disciplina onde tem ou não tem acesso.
+
+**Pré-condições:** O Aluno está autenticado no sistema e está registrado como Aluno.
+
+**Pós-condições:** O Aluno está com permissão de acessar á Disciplina.
+
+**Disparador:** O Aluno clica na Disciplina Desejada.
+
+**Prioridade:** Essencial.
+
+**Cenário:**
+
+1. O Aluno pede acesso ao Professor sobre uma Disciplina.
+2. O Professor envia o link da Disciplina ao Aluno.
+3. O Aluno copia e cola o link no sistema TutorIA.
+4. Caso o Aluno tenha autorização/permissão o sistema TutorIA o envia diretamente para essa Disciplina.
+
+**Exceções:**
+
+1a. O Aluno tem permissão: O sistema já deixa visível á matéria ao Aluno, fazendo o mesmo não ter que ir ao esforço de solicitar acesso ao Professor.
+
+2a. O Professor não envia o link: O aluno continua sem acesso á Disciplina.
+
+4a. O Aluno consegue acesso ao link mas não possui permissão: O sistema exibe uma tela avisando/notificando o aluno sobre não ter permissão á essa Disciplina e para pedir ao seu Professor  acesso/permissão á ela.
