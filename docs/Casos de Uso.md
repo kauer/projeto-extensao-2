@@ -147,7 +147,9 @@
 **Exceções:**
 
 1a. Se o aluno não tiver logado/registrado: O sistema avisa o aluno e pede para logar/registrar login.
+
 3a. Se o TutorAI não tiver acesso à matéria: O sistema avisa ao aluno que o professor não colocou fontes para essa disciplina no seu Banco de Dados ainda e pede para informar ao seu professor sobre isso.
+
 4a. Se o TutorAI der uma resposta insatisfatoria: O aluno define que o TutorAI deu uma resposta insatisfatoria, escolhe se decide opinar sobre a resposta do TutorAI, explica o por que é insatisfatorio e enviado ao professor essa opinião.
 
 
