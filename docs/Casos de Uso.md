@@ -116,10 +116,44 @@
 **Exceções:**
 
 1a. O Professor não adicionou nenhuma Disciplina: O sistema informa que há nenhuma disciplina existente e pede para o Professor criar uma Disciplina primeiro.
-4a. O Professor define quais e-mails podem acessá-lo sem alterar sua visibilidade: O sistema notifica apenas os alunos definidos com visibilidade da Disciplina.
+
 5a. O sistema falha em alterar a visibilidade: O sistema cancela todas as suas funções e exibe uma tela avisando/notificando o Professor sobre um erro na alteração da visibilidade da Disciplina por parte do sistema e pede para tentar novamente.
 
+
+
 ### UCP-3: Adicionar Alunos à Disciplina
+
+**Ator primário:** Professor
+
+**Meta no contexto:** Adicionar Alunos á Disciplina desejada.
+
+**Pré-condições:** O Professor está autenticado no sistema e está registrado como Professor.
+
+**Pós-condições:** Uma disciplina existente recebe novos alunos.
+
+**Disparador:** O Professor clica no botão "Adicionar Alunos" no sistema.
+
+**Prioridade:** Essencial.
+
+**Cenário:**
+
+1. O Professor clica no botão "Adicionar Alunos"
+2. O sistema exibe uma tela exibindo todas as Disciplinas definidas/existentes do Professor.
+3. O Professor seleciona a Disciplina desejada.
+4. O Professor escreve o e-mail de todos os alunos que deseja adicionar à Disciplina e dá OK.
+5. O sistema notifica todos os alunos selecionados que foram adicionados á uma nova Disciplina e o sistema exibe uma tela avisando/notificando ao Professor que os Alunos foram adicionados à  Disciplina com sucesso.
+
+**Exceções:**
+
+1a. Não existe nenhum aluno no registrado no sistema: O sistema informa que há nenhum aluno existente e pede para o Professor pedir para os Alunos se registrarem primeiro.
+
+2a. O Professor não adicionou nenhuma Disciplina: O sistema informa que há nenhuma disciplina existente e pede para o Professor criar uma Disciplina primeiro.
+
+3a. Todos os alunos já estão registrados na Disciplina: O sistema informa que há nenhum aluno para ser adicionado, já que todos já foram adicionados á essa Disciplina.
+
+4a. O aluno já está adicionado à Disciplina: O sistema informa que esse email já está adicionado á essa Disciplina.
+
+5a. O sistema falha em adicionar os alunos: O sistema cancela todas as suas funções e exibe uma tela avisando/notificando o Professor sobre um erro no adicionamento dos alunos à Disciplina por parte do sistema e pede para tentar novamente.
 
 
 
@@ -214,3 +248,5 @@
 
 7a. Caso haja um problema no envio da notificação, o sistema notifica o Aluno e pede-o para tentar novamente. 
 
+
+### UCA-3: Acessar Disciplina
