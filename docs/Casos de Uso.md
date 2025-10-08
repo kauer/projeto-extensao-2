@@ -89,9 +89,35 @@
 
 3a. O professor não adiciona Nome à disciplina: O sistema informa que a disciplina não pode ser registrada sem nome.
 
+
+
 ### UCP-2: Compartilhar Disciplina
 
+**Ator primário:** Professor
 
+**Meta no contexto:** Compartilha uma disciplina existente que contem os materiais didáticos referenciados pelo professor.
+
+**Pré-condições:** O Professor está autenticado no sistema e está registrado como Professor.
+
+**Pós-condições:** Uma disciplina existente é compartilhada com os alunos.
+
+**Disparador:** O Professor clica no botão "Compartilhar Disciplinas" no sistema.
+
+**Prioridade:** Essencial.
+
+**Cenário:**
+
+1. O Professor clica no botão "Compartilhar Disciplina"
+2. O sistema exibe uma tela mostrando todas as Disciplinas definidas/existentes do Professor.
+3. O Professor seleciona a Disciplina desejada.
+4. O Professor altera á visibilidade da Disciplina para pública, anteriormente privada.
+5. O sistema altera á visibilidade da Disciplina, notifica os alunos sobre uma nova Disciplina ter sido compartilhada e o sistema exibe uma tela avisando/notificando ao Professor que a visibilidade da Disciplina foi alterada com sucesso.
+
+**Exceções:**
+
+1a. O Professor não adicionou nenhuma Disciplina: O sistema informa que há nenhuma disciplina existente e pede para o Professor criar uma Disciplina primeiro.
+4a. O Professor define quais e-mails podem acessá-lo sem alterar sua visibilidade: O sistema notifica apenas os alunos definidos com visibilidade da Disciplina.
+5a. O sistema falha em alterar a visibilidade: O sistema cancela todas as suas funções e exibe uma tela avisando/notificando o Professor sobre um erro na alteração da visibilidade da Disciplina por parte do sistema e pede para tentar novamente.
 
 ### UCP-3: Adicionar Alunos à Disciplina
 
