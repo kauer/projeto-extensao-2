@@ -133,4 +133,35 @@
 
 ### UCA-2: Envia Feedback
 
+**Ator primário:** Aluno
+
+**Meta no contexto:** Permitir ao aluno, caso o chatbot dê uma resposta inadequada, notificar o professor e enviar o contexto do chat e um comentário.
+
+**Pré-condições:** O Aluno está logado, acessou a Disciplina do Professor, e tem permissão pra acessar a Disciplina.
+
+**Pós-condições:** Uma notificação é enviada ao professor para avaliação.
+
+**Disparador:** O aluno clica no botão de "enviar feedback" em uma resposta do chatbot.
+
+**Prioridade:** Importante.
+
+**Cenário:**
+
+1. O aluno acessa o link fornecido pelo professor.
+2. O aluno escreve a sua dúvida no chatbot do TutorIA.
+3. O TutorIA gera uma resposta sobre a matéria.
+4. O aluno clica no botão de "enviar feedback" em uma resposta do TutorIA.
+5. O sistema abre uma tela em que o aluno possa escrever uma justificativa para o feedback, além de classificar o problema (erro no chatbot, resposta inadequada, resposta ofensiva, idioma errado, etc.)
+6. O aluno preenche o feedback e escolhe uma classificação para o problema, e clica em ok.
+7. O sistema agradece pelo feedback e envia a notificação para o professor da disciplina.
+	
+**Exceções:**
+
+1a. Se o aluno não tiver logado/registrado: O sistema avisa o aluno e pede para logar/registrar login.
+
+3a. Se o TutorIA não tiver acesso aos conteúdos: O sistema avisa ao aluno que o professor não colocou fontes para essa disciplina no seu Banco de Dados ainda e pede para informar ao seu professor sobre isso.
+
+6a. Se o aluno não classificar o problema, o sistema o impede de seguir e indica em vermelho o campo necessário. A descrição textual é opcional, exceto em caso da classificação ser "Outros".
+
+7a. Caso haja um problema no envio da notificação, o sistema notifica o Aluno e pede-o para tentar novamente. 
 
