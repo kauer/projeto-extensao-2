@@ -1,14 +1,14 @@
 # Diagramas de Caso de Uso
 
-<img alt="casos de uso gerais" src="imagens/casos de uso gerais.png"/>
+<img alt="casos de uso gerais" src="imagens/casos de uso gerais.png" width="700"/>
 
 ___
 
-<img alt="casos de uso professor" src="imagens/casos de uso professor.png"/>
+<img alt="casos de uso professor" src="imagens/casos de uso professor.png" width="700"/>
 
 ___
 
-<img alt="casos de uso aluno" src="imagens/casos de uso aluno.png"/>
+<img alt="casos de uso aluno" src="imagens/casos de uso aluno.png" width="700"/>
 
 ___
 
