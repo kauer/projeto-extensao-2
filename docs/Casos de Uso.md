@@ -1,3 +1,18 @@
+# Diagramas de Caso de Uso
+
+<img alt="casos de uso gerais" src="imagens/casos de uso gerais.png"/>
+
+___
+
+<img alt="casos de uso professor" src="imagens/casos de uso professor.png"/>
+
+___
+
+<img alt="casos de uso aluno" src="imagens/casos de uso aluno.png"/>
+
+___
+
+
 # Casos de Uso Nomenclatura:
 
 **UCP - Casos de Uso Professor**
@@ -61,6 +76,7 @@
 
 5a. Se o código de confirmação do usuário está errado, o sistema notifica o usuário e o impede de seguir.
 
+---
 
 # Casos de Uso do Professor
 
@@ -181,6 +197,7 @@
 
 3a. Se a informação apresentada pelo TutorIA estiver correta e o aluno insistir em estár errada, o professor notificara o aluno sobre o problema não ser parte do TutorIA.
 
+---
 # Casos de Uso do Aluno
 
 ### UCA-1: Perguntar ao TutorAI
