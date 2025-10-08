@@ -58,6 +58,7 @@
 **Exceções:**
 
 3a. Se faltar alguma informação de registro, o sistema notifica o usuário e o impede de seguir.
+
 5a. Se o código de confirmação do usuário está errado, o sistema notifica o usuário e o impede de seguir.
 
 
@@ -98,7 +99,27 @@
 
 ### UCP-4: Recebe Feedback
 
+**Ator primário:** Professor
 
+**Meta no contexto:** Acessar um Feedback enviado por um aluno sobre o comportamento/resposta do TutorIA.
+
+**Pós-condições:** Um aluno ter enviado um Feedback sobre o comportamento/resposta do TutorIA.
+
+**Disparador:** O Professor receber uma notificação de um novo Feedback.
+
+**Prioridade:** Essencial.
+
+**Cenário:**
+
+1. O Professor clica no botão “Feedback”
+2. O sistema exibe uma tela mostrando os Feedback’s mais recentes, de qual aluno, qual turma, a mensagem enviada pelo TutorIA e uma própria mensagem do aluno detalhando o problema.
+3. O Professor seleciona e verifica um Feedback.
+4. O Professor sugere uma resposta alternativa ão TutorIA para arrumar os problemas conforme apontados pelo Feedback e dá OK.
+5. O sistema recebe e aplica as sugestões, enviando ao aluno á resposta do Professor esclarecida ser do Professor.
+
+**Exceções:**
+
+3a. Se a informação apresentada pelo TutorIA estiver correta e o aluno insistir em estár errada, o professor notificara o aluno sobre o problema não ser parte do TutorIA.
 
 # Casos de Uso do Aluno
 
