@@ -1,0 +1,1124 @@
+openapi: 3.0.4
+info:
+  title: TutorIA API
+  version: 1.0.0
+  description: |
+    API para o sistema TutorIA - um assistente virtual de aprendizado baseado em RAG (Retrieval-Assisted Generation) 
+    que permite professores criarem disciplinas com conteúdos didáticos e alunos interagirem com um chatbot 
+    inteligente para tirar dúvidas sobre o material.
+
+servers:
+  - url: https://api.tutoria.ifsc.edu.br/v1
+    description: Production server
+  - url: http://localhost:8000/v1
+    description: Development server
+
+tags:
+  - name: Authentication
+    description: Endpoints de autenticação e registro de usuários
+  - name: Disciplines
+    description: Gerenciamento de disciplinas
+  - name: Content
+    description: Gerenciamento de conteúdos didáticos
+  - name: Conversations
+    description: Interações com o chatbot TutorIA
+  - name: Feedback
+    description: Sistema de feedback de alunos para professores
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Registrar novo usuário
+      description: Cria um novo usuário (Professor ou Aluno) no sistema
+      operationId: registerUser
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - name
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: professor@ifsc.edu.br
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                  example: senha123
+                name:
+                  type: string
+                  example: João Silva
+      responses:
+        '201':
+          description: Usuário registrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Código de confirmação enviado para o email
+                  userId:
+                    type: string
+                    format: uuid
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Email já cadastrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/verify-email:
+    post:
+      tags:
+        - Authentication
+      summary: Verificar código de confirmação de email
+      description: Valida o código de confirmação enviado para o email do usuário
+      operationId: verifyEmail
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - code
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                code:
+                  type: string
+                  example: "123456"
+      responses:
+        '200':
+          description: Email verificado com sucesso
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          description: Código inválido ou expirado
+
+  /auth/resend-code:
+    post:
+      tags:
+        - Authentication
+      summary: Reenviar código de confirmação
+      description: Gera e envia novo código de confirmação de email
+      operationId: resendCode
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+      responses:
+        '200':
+          description: Novo código enviado
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/set-role:
+    post:
+      tags:
+        - Authentication
+      summary: Definir papel do usuário
+      description: Define se o usuário é Professor ou Aluno
+      operationId: setUserRole
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userId
+                - role
+              properties:
+                userId:
+                  type: string
+                  format: uuid
+                role:
+                  type: string
+                  enum: [professor, aluno]
+      responses:
+        '200':
+          description: Papel definido com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: JWT token para autenticação
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login de usuário
+      description: Autentica usuário no sistema
+      operationId: login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /disciplines:
+    get:
+      tags:
+        - Disciplines
+      summary: Listar disciplinas
+      description: Lista disciplinas do professor autenticado ou disciplinas disponíveis para o aluno
+      operationId: listDisciplines
+      parameters:
+        - name: visibility
+          in: query
+          schema:
+            type: string
+            enum: [public, private, all]
+          description: Filtrar por visibilidade (apenas para professores)
+      responses:
+        '200':
+          description: Lista de disciplinas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Discipline'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      tags:
+        - Disciplines
+      summary: Criar nova disciplina
+      description: Cria uma nova disciplina (apenas professores)
+      operationId: createDiscipline
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  example: Cálculo I
+                description:
+                  type: string
+                  example: Disciplina de cálculo diferencial e integral
+                isPublic:
+                  type: boolean
+                  default: false
+                studentEmails:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+      responses:
+        '201':
+          description: Disciplina criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Discipline'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /disciplines/{disciplineId}:
+    get:
+      tags:
+        - Disciplines
+      summary: Obter detalhes da disciplina
+      description: Retorna informações detalhadas de uma disciplina
+      operationId: getDiscipline
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      responses:
+        '200':
+          description: Detalhes da disciplina
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DisciplineDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - Disciplines
+      summary: Atualizar disciplina
+      description: Atualiza informações da disciplina (apenas professor proprietário)
+      operationId: updateDiscipline
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                isPublic:
+                  type: boolean
+      responses:
+        '200':
+          description: Disciplina atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Discipline'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags:
+        - Disciplines
+      summary: Deletar disciplina
+      description: Remove uma disciplina (apenas professor proprietário)
+      operationId: deleteDiscipline
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      responses:
+        '204':
+          description: Disciplina deletada com sucesso
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /disciplines/{disciplineId}/students:
+    post:
+      tags:
+        - Disciplines
+      summary: Adicionar alunos à disciplina
+      description: Adiciona alunos à disciplina por email (apenas professor)
+      operationId: addStudentsToDiscipline
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - studentEmails
+              properties:
+                studentEmails:
+                  type: array
+                  items:
+                    type: string
+                    format: email
+      responses:
+        '200':
+          description: Alunos adicionados com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  addedStudents:
+                    type: array
+                    items:
+                      type: string
+                  notFound:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    get:
+      tags:
+        - Disciplines
+      summary: Listar alunos da disciplina
+      description: Lista todos os alunos matriculados na disciplina
+      operationId: listDisciplineStudents
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      responses:
+        '200':
+          description: Lista de alunos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /disciplines/{disciplineId}/students/{studentId}:
+    delete:
+      tags:
+        - Disciplines
+      summary: Remover aluno da disciplina
+      description: Remove um aluno da disciplina (apenas professor)
+      operationId: removeStudentFromDiscipline
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+        - name: studentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Aluno removido com sucesso
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /disciplines/{disciplineId}/contents:
+    get:
+      tags:
+        - Content
+      summary: Listar conteúdos didáticos
+      description: Lista todos os conteúdos didáticos da disciplina
+      operationId: listContents
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      responses:
+        '200':
+          description: Lista de conteúdos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Content'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      tags:
+        - Content
+      summary: Adicionar conteúdo didático
+      description: Faz upload de conteúdo didático para a disciplina (apenas professor)
+      operationId: uploadContent
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Arquivo PDF, PPTX, DOCX, etc.
+                title:
+                  type: string
+                description:
+                  type: string
+      responses:
+        '201':
+          description: Conteúdo adicionado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /disciplines/{disciplineId}/contents/{contentId}:
+    get:
+      tags:
+        - Content
+      summary: Obter detalhes do conteúdo
+      description: Retorna informações de um conteúdo específico
+      operationId: getContent
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+        - $ref: '#/components/parameters/contentId'
+      responses:
+        '200':
+          description: Detalhes do conteúdo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Content'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags:
+        - Content
+      summary: Deletar conteúdo didático
+      description: Remove um conteúdo da disciplina (apenas professor)
+      operationId: deleteContent
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+        - $ref: '#/components/parameters/contentId'
+      responses:
+        '204':
+          description: Conteúdo deletado com sucesso
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /disciplines/{disciplineId}/conversations:
+    get:
+      tags:
+        - Conversations
+      summary: Listar conversas
+      description: Lista todas as conversas do usuário na disciplina
+      operationId: listConversations
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      responses:
+        '200':
+          description: Lista de conversas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      tags:
+        - Conversations
+      summary: Criar nova conversa
+      description: Inicia uma nova conversa com o TutorIA
+      operationId: createConversation
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Dúvidas sobre derivadas
+      responses:
+        '201':
+          description: Conversa criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /disciplines/{disciplineId}/conversations/{conversationId}:
+    get:
+      tags:
+        - Conversations
+      summary: Obter detalhes da conversa
+      description: Retorna todas as mensagens de uma conversa
+      operationId: getConversation
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+        - $ref: '#/components/parameters/conversationId'
+      responses:
+        '200':
+          description: Detalhes da conversa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags:
+        - Conversations
+      summary: Deletar conversa
+      description: Remove uma conversa
+      operationId: deleteConversation
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+        - $ref: '#/components/parameters/conversationId'
+      responses:
+        '204':
+          description: Conversa deletada com sucesso
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /disciplines/{disciplineId}/conversations/{conversationId}/messages:
+    post:
+      tags:
+        - Conversations
+      summary: Enviar mensagem
+      description: Envia uma mensagem para o TutorIA e recebe resposta
+      operationId: sendMessage
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+        - $ref: '#/components/parameters/conversationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - content
+              properties:
+                content:
+                  type: string
+                  example: Como calcular a derivada de x^2?
+      responses:
+        '201':
+          description: Mensagem enviada e resposta recebida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userMessage:
+                    $ref: '#/components/schemas/Message'
+                  aiMessage:
+                    $ref: '#/components/schemas/Message'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /feedback:
+    post:
+      tags:
+        - Feedback
+      summary: Enviar feedback
+      description: Aluno envia feedback sobre resposta do TutorIA
+      operationId: submitFeedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - messageId
+                - category
+              properties:
+                messageId:
+                  type: string
+                  format: uuid
+                  description: ID da mensagem do TutorIA
+                category:
+                  type: string
+                  enum: 
+                    - erro_chatbot
+                    - resposta_inadequada
+                    - resposta_ofensiva
+                    - idioma_errado
+                    - outros
+                description:
+                  type: string
+                  description: Descrição detalhada (obrigatório se category = outros)
+      responses:
+        '201':
+          description: Feedback enviado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /feedback/discipline/{disciplineId}:
+    get:
+      tags:
+        - Feedback
+      summary: Listar feedbacks da disciplina
+      description: Professor lista feedbacks recebidos de alunos (apenas professor)
+      operationId: listFeedbacks
+      parameters:
+        - $ref: '#/components/parameters/disciplineId'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, reviewed, resolved]
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de feedbacks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FeedbackDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /feedback/{feedbackId}:
+    get:
+      tags:
+        - Feedback
+      summary: Obter detalhes do feedback
+      description: Retorna informações detalhadas de um feedback
+      operationId: getFeedback
+      parameters:
+        - name: feedbackId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Detalhes do feedback
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /feedback/{feedbackId}/respond:
+    post:
+      tags:
+        - Feedback
+      summary: Responder feedback
+      description: Professor responde ao feedback do aluno
+      operationId: respondToFeedback
+      parameters:
+        - name: feedbackId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - response
+              properties:
+                response:
+                  type: string
+                  description: Resposta alternativa ou esclarecimento do professor
+                suggestedAnswer:
+                  type: string
+                  description: Resposta sugerida para o TutorIA
+      responses:
+        '200':
+          description: Resposta enviada com sucesso
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    disciplineId:
+      name: disciplineId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: ID da disciplina
+
+    conversationId:
+      name: conversationId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: ID da conversa
+
+    contentId:
+      name: contentId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+      description: ID do conteúdo didático
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        name:
+          type: string
+        role:
+          type: string
+          enum: [professor, aluno]
+        createdAt:
+          type: string
+          format: date-time
+
+    Student:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+
+    Discipline:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        isPublic:
+          type: boolean
+        professorId:
+          type: string
+          format: uuid
+        professorName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    DisciplineDetail:
+      allOf:
+        - $ref: '#/components/schemas/Discipline'
+        - type: object
+          properties:
+            studentCount:
+              type: integer
+            contentCount:
+              type: integer
+            students:
+              type: array
+              items:
+                $ref: '#/components/schemas/Student'
+
+    Content:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        filename:
+          type: string
+        fileType:
+          type: string
+          example: application/pdf
+        fileSize:
+          type: integer
+          description: Tamanho em bytes
+        uploadedAt:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [processing, ready, error]
+          description: Status do processamento para RAG
+
+    Conversation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        disciplineId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        messageCount:
+          type: integer
+
+    ConversationDetail:
+      allOf:
+        - $ref: '#/components/schemas/Conversation'
+        - type: object
+          properties:
+            messages:
+              type: array
+              items:
+                $ref: '#/components/schemas/Message'
+
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        conversationId:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [user, assistant]
+        content:
+          type: string
+        references:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+        createdAt:
+          type: string
+          format: date-time
+
+    Reference:
+      type: object
+      properties:
+        contentId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        pageNumber:
+          type: integer
+        excerpt:
+          type: string
+        url:
+          type: string
+          format: uri
+
+    Feedback:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        messageId:
+          type: string
+          format: uuid
+        category:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, reviewed, resolved]
+        createdAt:
+          type: string
+          format: date-time
+
+    FeedbackDetail:
+      allOf:
+        - $ref: '#/components/schemas/Feedback'
+        - type: object
+          properties:
+            studentName:
+              type: string
+            studentEmail:
+              type: string
+            disciplineName:
+              type: string
+            originalMessage:
+              type: string
+            aiResponse:
+              type: string
+            professorResponse:
+              type: string
+            suggestedAnswer:
+              type: string
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+
+  responses:
+    BadRequest:
+      description: Requisição inválida
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Unauthorized:
+      description: Não autenticado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Sem permissão para acessar este recurso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Recurso não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
