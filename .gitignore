@@ -26,3 +26,11 @@ yarn-error.log*
 # backend python
 src/backend/venv
 src/backend/__pycache__
+
+#Pycharm
+# IDE settings
+.idea/workspace.xml
+.idea/task*
+.idea/dictionaries
+.idea/dataSources*
+.idea/httpRequests
