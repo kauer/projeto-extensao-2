@@ -1,0 +1,88 @@
+Diagrama entidade-relacional para desenvolvimento do backend. Sugere-se visualizar no https://mermaid.live/ pois o github não suporta o layout "elk" que torna a visualização mais simples.
+
+```mermaid
+---
+config:
+  layout: elk
+---
+
+erDiagram
+    USUARIO {
+      int id
+      string nome
+      string email
+      string papel
+      datetime criadoEm
+    }
+    PROFESSOR ||--|| USUARIO : "especializa"
+    ALUNO ||--|| USUARIO : "especializa"
+
+    ALUNODISCIPLINA {
+        int idAluno
+        int idDisciplina
+    }
+
+    ALUNO ||--|{ ALUNODISCIPLINA : Relaciona
+    ALUNODISCIPLINA ||--|{ DISCIPLINA : Relaciona
+
+    PROFESSORDISCIPLINA {
+        int idProfessor
+        int idDisciplina
+    }
+
+    PROFESSOR ||--|{ PROFESSORDISCIPLINA : Relaciona
+    PROFESSORDISCIPLINA ||--|{ DISCIPLINA : Relaciona
+
+    DISCIPLINA {
+      int id
+      string nome
+      string descricao
+      boolean publica
+      string professorId
+      datetime criadoEm
+      datetime atualizadoEm
+    }
+    PROFESSOR ||--|{ DISCIPLINA : "cria"
+    DISCIPLINA ||--|{ ALUNO : "tem matricula"
+
+    CONTEUDODIDATICO {
+      int id
+      string titulo
+      string descricao
+      string tipoArquivo
+      string nomeArquivo
+      int tamanhoArquivo
+      datetime enviadoEm
+      string status
+    }
+    DISCIPLINA ||--|{ CONTEUDODIDATICO : "possui"
+
+    CONVERSA {
+      int id
+      string titulo
+      string disciplinaId
+      string usuarioId
+      datetime criadoEm
+      datetime atualizadoEm
+      int qtdeMensagens
+    }
+    DISCIPLINA ||--|{ CONVERSA : "tem"
+    USUARIO ||--|{ CONVERSA : "participa"
+
+    MENSAGEM {
+      int id
+      string conversaId
+      string papel
+      string conteudo
+      datetime criadoEm
+    }
+    CONVERSA ||--|{ MENSAGEM : "possui"
+
+    LLMAgent {
+      int id
+      string modelo
+      string apiEndpoint
+    }
+    LLMAgent ||--|| DISCIPLINA : "associa"
+
+```
